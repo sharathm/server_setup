@@ -4,7 +4,7 @@
 
 sudo apt-get update
 
-sudo apt-get install -y postgresql postgresql-contrib
+sudo apt-get install -y postgresql postgresql-contrib libpq-dev
 
 # Allow listening on all interfaces
 
@@ -14,9 +14,9 @@ sudo apt-get install -y postgresql postgresql-contrib
 
 # Allow access via md5 passwords
 
-# sudo cp config/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
+sudo cp config/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
 
-# chmod 640 /etc/postgresql/12/main/pg_hba.conf
+chmod 640 /etc/postgresql/12/main/pg_hba.conf
 
 sudo service postgresql restart
 
