@@ -1,0 +1,69 @@
+version: '3'
+services:
+  dockspanner_db:
+    image: 'postgres'
+    environment:
+      POSTGRES_DB: dockspannerdb
+      POSTGRES_HOST_AUTH_METHOD: trust
+    networks:
+      - dockspanner-db-net
+    ports:
+      - "5432:5432"
+    volumes:
+      - 'dockspannerdb-data:/var/lib/postgresql/data'
+  dockspanner_redis:
+    image: redis:4.0.5-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: dockspanner_redis
+    ports:
+       - "6379:6379"
+    networks:
+      - dockspanner_redis-net
+    volumes:
+      - dockspanner_redis-data:/data
+  dockspanner_api:
+    build: './dockerspanner_api'
+    environment:
+     RAILS_ENV: "development"
+     RHOST: dockspanner_redis
+     REDIS_URL_SIDEKIQ: redis://dockspanner_redis:6379/1
+    command: bundle exec rails s -b 0.0.0.0
+    volumes:
+      - ./dockerspanner_api:/app
+    ports:
+      - "3000:3000"
+    networks:
+      - dockspanner_redis-net
+      - dockspanner-db-net
+    depends_on:
+      - dockspanner_redis
+      - dockspanner_db
+  dockspanner_provisioner:
+    build: './dockspanner_provisioner'
+    environment:
+     NODE_ENV: "development"
+     SERVICES_CACHE_HOST: dockspanner_redis
+     DATABASE_HOST: 'dockspanner_db'
+     DATABASE_NAME: 'dockspannerdb'
+     DATABASE_PASSWORD: ''
+     PORT: 3001
+     CONTAINER_DOMAIN: 'http://15.206.168.63:3001/'
+    command: npm run dev
+    volumes:
+      - ./dockspanner_provisioner:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3001:3001"
+    networks:
+      - dockspanner_redis-net
+      - dockspanner-db-net
+    depends_on:
+      - dockspanner_redis
+      - dockspanner_db
+networks:
+  dockspanner_redis-net:
+  dockspanner-db-net:
+
+volumes:
+  dockspanner_redis-data:
+  dockspannerdb-data:
