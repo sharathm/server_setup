@@ -14,5 +14,6 @@ npm -v
 
 rm nodesource_setup.sh
 
+sudo npm install -g pm2
 
 
