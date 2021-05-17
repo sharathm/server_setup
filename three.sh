@@ -16,7 +16,7 @@ sudo apt-get install -y postgresql postgresql-contrib libpq-dev
 
 sudo cp config/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
 
-chmod 640 /etc/postgresql/12/main/pg_hba.conf
+sudo chmod 640 /etc/postgresql/12/main/pg_hba.conf
 
 sudo service postgresql restart
 
