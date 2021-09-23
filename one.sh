@@ -16,3 +16,11 @@ sudo apt-get update
 sudo apt-get install -y docker-ce
 
 sudo usermod -aG docker ${USER}
+
+# git configs
+git config --global user.email "sharath@email.com"
+
+git config --global user.name "sharathm"
+
+# increase file watchers
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
