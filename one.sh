@@ -27,6 +27,6 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 
 
 #nvim
-sudo apt-get install -y vim
+sudo apt-get install neovim
 sudo apt-get install -y fzf
 sudo apt-get install -y ripgrep
