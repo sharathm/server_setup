@@ -27,3 +27,7 @@ gem install bundler
 rbenv rehash
 
 gem install rails -v 6.1.4.1
+
+gem install solargraph
+
+gem install rake
