@@ -18,4 +18,6 @@ rm nodesource_setup.sh
 
 sudo npm install -g pm2
 
+# set configs
 
+npm config set python /usr/bin/python3
